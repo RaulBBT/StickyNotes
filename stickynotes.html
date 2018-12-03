@@ -1,0 +1,107 @@
+<html>
+<head>
+<script>
+var titulo;
+var texto;
+var fecha;
+var divRaiz;
+var divtitulo;
+var tit;
+var divtext;
+var txt
+var divfecha;
+var fech;
+var nota1;
+var nota2;
+var j=1;
+var divNotas;
+var divFormulario;
+var botonEliminar;
+var tituloNota;
+var textoNota;
+var botonAnadir;
+//Modelo
+class Nota {
+	constructor(titulo,texto){
+		this.titulo=titulo;
+		this.texto=texto;
+		this.fecha=new Date();
+	}
+}
+//Controlador
+function inicio(){
+	generarDivs();
+	nota1 = new Nota("Nota1","Texto nota 1");
+	nota2 = new Nota("Nota2","Texto nota 2");
+	divNotas.appendChild(vistaNota(nota1));
+	divNotas.appendChild(vistaNota(nota2));
+}
+function anadirNota(cabecera, cuerpo){
+	var notaNueva= new Nota(cabecera,cuerpo);
+	divNotas.appendChild(vistaNota(notaNueva));
+}
+function eliminarNota(event){
+	document.getElementById(event.target.parentElement.id).style.cssText='visibility:hidden;';
+	document.getElementById(event.target.parentElement.id).parentNode.removeChild(document.getElementById(event.target.parentElement.id));
+}
+//Vista
+function vistaNota(nota) {
+	divRaiz=document.createElement("div");
+	divRaiz.className="nota";
+	divRaiz.setAttribute("id", "nota"+j)
+	divtitulo=document.createElement("h1");
+	tit = document.createTextNode(""+nota.titulo);
+	divtitulo.appendChild(tit); 
+	divtext=document.createElement("p");
+	txt = document.createTextNode(""+nota.texto);
+	divtext.appendChild(txt);
+	divfecha=document.createElement("p");
+	fech = document.createTextNode(""+nota.fecha);
+	divfecha.appendChild(fech);
+	divRaiz.appendChild(divtitulo);
+	divRaiz.appendChild(divtext);
+	divRaiz.appendChild(divfecha);
+	divRaiz.style.cssText = 'background-color:yellow; width:200px; margin:2px;';
+	botonEliminar=document.createElement("button");
+	var t = document.createTextNode("X");
+	botonEliminar.appendChild(t);
+	botonEliminar.setAttribute("id",""+j);
+	botonEliminar.onclick = eliminarNota;
+	divRaiz.appendChild(botonEliminar);
+	j++;
+	return divRaiz;
+}
+function generarDivs(){
+	divNotas=document.createElement("div");
+	divNotas.setAttribute("id", "divNotas");
+	divNotas.style.cssText ='height:50%; width:100%; border:solid 1px black; display:flex;';
+	document.body.appendChild(divNotas);
+	divFormulario=document.createElement("div");
+	var titt = document.createElement("h2");
+	var texttit = document.createTextNode("Titulo nota nueva");
+	titt.appendChild(texttit);
+	divFormulario.appendChild(titt);
+	tituloNota=document.createElement("input");
+	tituloNota.setAttribute("id","tituloNota");
+	divFormulario.appendChild(tituloNota);
+	var txtt = document.createElement("h2");
+	var texttxtt = document.createTextNode("Texto nota nueva");
+	txtt.appendChild(texttxtt);
+	divFormulario.appendChild(txtt);
+	textoNota=document.createElement("input");
+	textoNota.setAttribute("id","textoNota");
+	divFormulario.appendChild(textoNota);
+	botonAnadir=document.createElement("button");
+	var t = document.createTextNode("Nueva nota");
+	botonAnadir.appendChild(t);
+	botonAnadir.onclick = () => anadirNota(""+tituloNota.value, ""+textoNota.value);
+	divFormulario.appendChild(botonAnadir);
+	divFormulario.setAttribute("id", "divForm");
+	divFormulario.style.cssText ='height:45%; width:100%; border:solid 1px black; margin-top:5px;';
+	document.body.appendChild(divFormulario);
+}
+</script>
+</head>
+<body onload="inicio()">
+</body>
+</html>
